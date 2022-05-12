@@ -31,60 +31,54 @@ if (empty($_SESSION['active'])) {
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link d-flex" href="usuarios.php">
-                            <i class="fas fa-user mr-2 fa-2x"></i>
-                            <p> Usuarios</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="config.php">
-                            <i class="fas fa-cogs mr-2 fa-2x"></i>
-                            <p> Configuración</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="tipo.php">
-                            <i class=" fas fa-times-circle mr-2 fa-2x"></i>
-                            <p> Items de Baja</p>
-                        </a>
-                    </li>
-                   <!-- <li class="nav-item">
-                        <a class="nav-link d-flex" href="presentacion.php">
-                            <i class=" fas fa-list mr-2 fa-2x"></i>
-                            <p> Presentación</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="laboratorio.php">
-                            <i class=" fas fa-hospital mr-2 fa-2x"></i>
-                            <p> Laboratorios</p>
-                        </a>
-                    </li>-->
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="mantenimiento.php">
-                            <i class="fab fas fa-wrench mr-2 fa-2x"></i>
-                            <p> Mantenimiento</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="clientes.php">
-                            <i class=" fas fa-users mr-2 fa-2x"></i>
-                            <p> Clientes</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="ventas.php">
-                            <i class="fas fa-cash-register mr-2 fa-2x"></i>
-                            <p> Nueva Venta</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex" href="lista_ventas.php">
-                            <i class="fas fa-file-alt mr-2 fa-2x"></i>
-                            <p> Reportes</p>
-                        </a>
-                    </li>
-                </ul>
+                         <a class="nav-link d-flex" href="activos_fijos.php">
+                             <i class="fa-gear mr-2 fa-2x"></i>
+                             <p> Activos Fijos</p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link d-flex" href="mantenimiento.php">
+                             <i class="fab fas fa-wrench mr-2 fa-2x"></i>
+                             <p> Mantenimientos</p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link d-flex" href="servicios.php">
+                             <i class=" fas fa-times-circle mr-2 fa-2x"></i>
+                             <p> Servicios</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex" href="clientes.php">
+                                <i class=" fas fa-users mr-2 fa-2x"></i>
+                                <p> Clientes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex" href="ventas.php">
+                                <i class="fas fa-cash-register mr-2 fa-2x"></i>
+                                <p> Nueva Venta</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex" href="lista_ventas.php">
+                                <i class="fas fa-file-alt mr-2 fa-2x"></i>
+                                <p> Reportes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex" href="usuarios.php">
+                                <i class="fas fa-user mr-2 fa-2x"></i>
+                                <p> Usuarios</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex" href="config.php">
+                                <i class="fas fa-cogs mr-2 fa-2x"></i>
+                                <p> Configuración</p>
+                            </a>
+                        </li>
+                    </ul>
             </div>
         </div>
         <div class="main-panel">

@@ -4,8 +4,8 @@ $usuarios = mysqli_query($conexion, "SELECT * FROM usuario");
 $total['usuarios'] = mysqli_num_rows($usuarios);
 $clientes = mysqli_query($conexion, "SELECT * FROM cliente");
 $total['clientes'] = mysqli_num_rows($clientes);
-$productos = mysqli_query($conexion, "SELECT * FROM producto");
-$total['productos'] = mysqli_num_rows($productos);
+$activos_fijos = mysqli_query($conexion, "SELECT * FROM activos_fijos");
+$total['activos_fijos'] = mysqli_num_rows($activos_fijos);
 $ventas = mysqli_query($conexion, "SELECT * FROM ventas WHERE fecha > CURDATE()");
 $total['ventas'] = mysqli_num_rows($ventas);
 session_start();
@@ -50,10 +50,10 @@ include_once "includes/header.php";
                 <div class="card-icon">
                     <i class="fas fa-tools fa-2x"></i>
                 </div>
-                <a href="productos.php" class="card-category text-danger font-weight-bold">
+                <a href="activos_fijos.php" class="card-category text-danger font-weight-bold">
                     MTTO INFRA/INMOVILIARIA
                 </a>
-                <h3 class="card-title"><?php echo $total['productos']; ?></h3>
+                <h3 class="card-title"><?php echo $total['activos_fijos']; ?></h3>
             </div>
             <div class="card-footer bg-primary">
             </div>

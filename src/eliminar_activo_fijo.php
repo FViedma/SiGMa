@@ -1,7 +1,7 @@
 <?php
 require("../conexion.php");
 $id_user = $_SESSION['idUser'];
-$permiso = 'laboratorios';
+$permiso = 'activos_fijos';
 $sql = mysqli_query($conexion, "SELECT p.*, d.* FROM permisos p INNER JOIN detalle_permisos d ON p.id = d.id_permiso WHERE d.id_usuario = $id_user AND p.nombre = '$permiso'");
 $existe = mysqli_fetch_all($sql);
 if (empty($existe) && $id_user != 1) {
@@ -9,7 +9,7 @@ if (empty($existe) && $id_user != 1) {
 }
 if (!empty($_GET['id'])) {
     $id = $_GET['id'];
-    $query_delete = mysqli_query($conexion, "DELETE FROM laboratorios WHERE id = $id");
+    $query_delete = mysqli_query($conexion, "DELETE FROM activos_fijos WHERE id_activo_fijo = $id");
     mysqli_close($conexion);
-    header("Location: laboratorio.php");
+    header("Location: activos_fijos.php");
 }

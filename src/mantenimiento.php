@@ -175,28 +175,6 @@ include_once "includes/header.php";
                 </div>
             </div>
         </div>
-        <!--  <div class="card card-stats">
-            esto es lo que AUMENTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-        </div>-->
-        <script>
-	        $(document).on("ready"),function(){
-	         var table$("#table").datatable({
-		        "ajax";{
-		        "type":"POST"
-		            "url":"listar.php"
-		               },
-		            "columns":[
-		                {"data":"Codigo"},
-		                {"data":"Item"},
-		                {"data":"Asignado"},
-	            	    {"data":"cantidad"},
-		            ]
-	                });
-    	    });
-        </script>
-        <!--  <div class="card card-stats">
-            esto es lo que AUMENTE
-        </div>-->
         <div class="col-md-12">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="tbl">
@@ -205,11 +183,6 @@ include_once "includes/header.php";
                             <th>#</th>
                             <th>Código</th>
                             <th>Producto</th>
-                            <th>Tipo</th>
-                            <th>Presentacion</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -224,10 +197,6 @@ include_once "includes/header.php";
                                     <td><?php echo $data['codproducto']; ?></td>
                                     <td><?php echo $data['codigo']; ?></td>
                                     <td><?php echo $data['descripcion']; ?></td>
-                                    <td><?php echo $data['tipo']; ?></td>
-                                    <td><?php echo $data['nombre']; ?></td>
-                                    <td><?php echo $data['precio']; ?></td>
-                                    <td><?php echo $data['existencia']; ?></td>
                                     <td>
                                         <a href="#" onclick="editarProducto(<?php echo $data['codproducto']; ?>)" class="btn btn-primary"><i class='fas fa-edit'></i></a>
 

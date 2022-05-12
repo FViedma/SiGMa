@@ -9,7 +9,7 @@ if (empty($existe) && $id_user != 1) {
 }
 if (!empty($_GET['id'])) {
     $id = $_GET['id'];
-    $query_delete = mysqli_query($conexion, "DELETE FROM tipos WHERE id = $id");
+    $query_delete = mysqli_query($conexion, "DELETE FROM servicios WHERE id = $id");
     mysqli_close($conexion);
-    header("Location: tipo.php");
+    header("Location: servicios.php");
 }

@@ -138,6 +138,12 @@ if (isset($_GET['q'])) {
     $data = mysqli_fetch_array($sql);
     echo json_encode($data);
     exit;
+} else if (isset($_GET['editarActFijo'])) {
+    $id = $_GET['id'];
+    $sql = mysqli_query($conexion, "SELECT * FROM activos_fijos WHERE id_activo_fijo = $id");
+    $data = mysqli_fetch_array($sql);
+    echo json_encode($data);
+    exit;
 }
 if (isset($_POST['regDetalle'])) {
     $id = $_POST['id'];

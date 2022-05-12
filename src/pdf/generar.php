@@ -1,6 +1,6 @@
 <?php
 require_once '../../conexion.php';
-require_once 'fpdf/fpdf.php';
+require_once 'ext/fpdf/fpdf.php';
 $pdf = new FPDF('P', 'mm', array(80, 200));
 $pdf->AddPage();
 $pdf->SetMargins(5, 0, 0);
