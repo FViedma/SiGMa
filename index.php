@@ -47,46 +47,51 @@ if (!empty($_SESSION['active'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Iniciar Sesión</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="assets/css/material-dashboard.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/css/material-dashboard.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" />
 </head>
 
 <body class="bg">
     <div class="col-md-4 mx-auto">
-        <?php echo (isset($alert)) ? $alert : '' ; ?>
-							<div class="card">
-								<div class="card-header card-header-primary text-center">
-									<h4 class="card-title">Iniciar Sesión</h4>
-									<img class="img-thumbnail" src="assets/img/logo.png" width="150"/>
-								</div>
-								<div class="card-body">
-									<?php echo isset($alert) ? $alert : ''; ?>
-									<form action="" method="post" class="p-3">
-										<div class="form-group">
-											<input type="text" class="form-control form-control-lg text-center" id="exampleInputEmail1" placeholder="Usuario" name="usuario">
-										</div>
-										<div class="form-group">
-											<input type="password" class="form-control form-control-lg text-center" id="exampleInputPassword1" placeholder="Clave" name="clave">
-										</div>
-										<div class="mt-3">
-											<button class="btn btn-block btn-dark btn-lg font-weight-medium auth-form-btn" type="submit">Login</button>
-										</div>
+        <?php echo (isset($alert)) ? $alert : ''; ?>
+        <div class="card">
+            <div class="card-header card-header-primary text-center">
+                <h4 class="card-title">Iniciar Sesión</h4>
+                <img class="img-thumbnail" src="assets/img/logo.png" width="150" />
+            </div>
+            <div class="card-body">
+                <?php echo isset($alert) ? $alert : ''; ?>
+                <form action="" method="post" class="p-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-lg text-center" id="exampleInputEmail1" placeholder="Usuario" name="usuario">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control form-control-lg text-center" id="exampleInputPassword1" placeholder="Clave" name="clave">
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-block btn-dark btn-lg font-weight-medium auth-form-btn" type="submit">Login</button>
+                    </div>
 
-									</form>
-								</div>
-							</div>
+                </form>
+            </div>
+        </div>
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
+    <script src="assets/js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="assets/js/material-dashboard.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap-notify.js"></script>
+
     <script src="assets/js/material-dashboard.js"></script>
     <!-- endinject -->
 </body>

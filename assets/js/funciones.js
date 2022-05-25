@@ -115,6 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById("detalle_venta")) {
     listar();
   }
+
+  $("#btn_importar").on("change", function (arg) {
+    importar(arg);
+  });
 });
 
 function calcularPrecio(e) {
@@ -327,104 +331,104 @@ function generarPDF(cliente, id_venta) {
   url = "pdf/generar.php?cl=" + cliente + "&v=" + id_venta;
   window.open(url, "_blank");
 }
-if (document.getElementById("stockMinimo")) {
-  const action = "sales";
-  $.ajax({
-    url: "chart.php",
-    type: "POST",
-    data: {
-      action,
-    },
-    async: true,
-    success: function (response) {
-      if (response != 0) {
-        var data = JSON.parse(response);
-        var nombre = [];
-        var cantidad = [];
-        for (var i = 0; i < data.length; i++) {
-          nombre.push(data[i]["descripcion"]);
-          cantidad.push(data[i]["existencia"]);
-        }
-        var ctx = document.getElementById("stockMinimo");
-        var myPieChart = new Chart(ctx, {
-          type: "pie",
-          data: {
-            labels: nombre,
-            datasets: [
-              {
-                data: cantidad,
-                backgroundColor: [
-                  "#024A86",
-                  "#E7D40A",
-                  "#581845",
-                  "#C82A54",
-                  "#EF280F",
-                  "#8C4966",
-                  "#FF689D",
-                  "#E36B2C",
-                  "#69C36D",
-                  "#23BAC4",
-                ],
-              },
-            ],
-          },
-        });
-      }
-    },
-    error: function (error) {
-      console.log(error);
-    },
-  });
-}
-if (document.getElementById("ProductosVendidos")) {
-  const action = "polarChart";
-  $.ajax({
-    url: "chart.php",
-    type: "POST",
-    async: true,
-    data: {
-      action,
-    },
-    success: function (response) {
-      if (response != 0) {
-        var data = JSON.parse(response);
-        var nombre = [];
-        var cantidad = [];
-        for (var i = 0; i < data.length; i++) {
-          nombre.push(data[i]["descripcion"]);
-          cantidad.push(data[i]["cantidad"]);
-        }
-        var ctx = document.getElementById("ProductosVendidos");
-        var myPieChart = new Chart(ctx, {
-          type: "doughnut",
-          data: {
-            labels: nombre,
-            datasets: [
-              {
-                data: cantidad,
-                backgroundColor: [
-                  "#C82A54",
-                  "#EF280F",
-                  "#23BAC4",
-                  "#8C4966",
-                  "#FF689D",
-                  "#E7D40A",
-                  "#E36B2C",
-                  "#69C36D",
-                  "#581845",
-                  "#024A86",
-                ],
-              },
-            ],
-          },
-        });
-      }
-    },
-    error: function (error) {
-      console.log(error);
-    },
-  });
-}
+// if (document.getElementById("stockMinimo")) {
+//   const action = "sales";
+//   $.ajax({
+//     url: "chart.php",
+//     type: "POST",
+//     data: {
+//       action,
+//     },
+//     async: true,
+//     success: function (response) {
+//       if (response != 0) {
+//         var data = JSON.parse(response);
+//         var nombre = [];
+//         var cantidad = [];
+//         for (var i = 0; i < data.length; i++) {
+//           nombre.push(data[i]["descripcion"]);
+//           cantidad.push(data[i]["existencia"]);
+//         }
+//         var ctx = document.getElementById("stockMinimo");
+//         var myPieChart = new Chart(ctx, {
+//           type: "pie",
+//           data: {
+//             labels: nombre,
+//             datasets: [
+//               {
+//                 data: cantidad,
+//                 backgroundColor: [
+//                   "#024A86",
+//                   "#E7D40A",
+//                   "#581845",
+//                   "#C82A54",
+//                   "#EF280F",
+//                   "#8C4966",
+//                   "#FF689D",
+//                   "#E36B2C",
+//                   "#69C36D",
+//                   "#23BAC4",
+//                 ],
+//               },
+//             ],
+//           },
+//         });
+//       }
+//     },
+//     error: function (error) {
+//       console.log(error);
+//     },
+//   });
+// }
+// if (document.getElementById("ProductosVendidos")) {
+//   const action = "polarChart";
+//   $.ajax({
+//     url: "chart.php",
+//     type: "POST",
+//     async: true,
+//     data: {
+//       action,
+//     },
+//     success: function (response) {
+//       if (response != 0) {
+//         var data = JSON.parse(response);
+//         var nombre = [];
+//         var cantidad = [];
+//         for (var i = 0; i < data.length; i++) {
+//           nombre.push(data[i]["descripcion"]);
+//           cantidad.push(data[i]["cantidad"]);
+//         }
+//         var ctx = document.getElementById("ProductosVendidos");
+//         var myPieChart = new Chart(ctx, {
+//           type: "doughnut",
+//           data: {
+//             labels: nombre,
+//             datasets: [
+//               {
+//                 data: cantidad,
+//                 backgroundColor: [
+//                   "#C82A54",
+//                   "#EF280F",
+//                   "#23BAC4",
+//                   "#8C4966",
+//                   "#FF689D",
+//                   "#E7D40A",
+//                   "#E36B2C",
+//                   "#69C36D",
+//                   "#581845",
+//                   "#024A86",
+//                 ],
+//               },
+//             ],
+//           },
+//         });
+//       }
+//     },
+//     error: function (error) {
+//       console.log(error);
+//     },
+//   });
+// }
 
 function btnCambiar(e) {
   e.preventDefault();
@@ -655,4 +659,49 @@ function editarActFijo(id) {
       console.log(error);
     },
   });
+}
+function importar(evt) {
+  var file = evt.target.files[0];
+  if(!file){
+    return;
+  } 
+  let reader = new FileReader();
+  reader.onload = function(e) {
+    var data = e.target.result; 
+    const todasFilas = data.split(/\r?\n|\r/);
+    const action = "importarActFijo";
+    var filas = {};
+    for (let i = 0; i < todasFilas.length; i++) {
+      filas[i] = todasFilas[i];
+    }
+    $.ajax({
+      url: "ajax.php",
+      type: "POST",
+      async: true,
+      data: {
+        importarActFijo: action,
+        filas: filas,
+      },
+      success: function (response) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response,
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      },
+      error: function (error) {
+        console.log("errors");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Activos no registrados",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      },
+    });
+  }
+  var data = reader.readAsText(file);
 }

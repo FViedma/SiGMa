@@ -30,7 +30,7 @@ if (!empty($_POST)) {
             $result = mysqli_fetch_array($query);
             if ($result > 0) {
                 $alert = '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        El Laboratorio ya existe
+                        El Activo ya existe
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -39,7 +39,7 @@ if (!empty($_POST)) {
                 $query_insert = mysqli_query($conexion, "INSERT INTO activos_fijos(codigo,descripcion,ubicacion,asignado) values ('$codigo', '$descripcion', '$ubicacion', '$asignado')");
                 if ($query_insert) {
                     $alert = '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Laboratorio registrado
+                        Activo registrado
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -57,7 +57,7 @@ if (!empty($_POST)) {
             $sql_update = mysqli_query($conexion, "UPDATE activos_fijos SET codigo = '$codigo', descripcion = '$descripcion', ubicacion = '$ubicacion', asignado = '$asignado' WHERE id_activo_fijo = $id");
             if ($sql_update) {
                 $alert = '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Laboratorio Modificado
+                        Activo Modificado
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -108,10 +108,10 @@ include_once "includes/header.php";
                                 <input type="text" placeholder="Asignado por" name="asignado" id="asignado" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-4 mt-4">
+                        <div class="col-md-2 mt-2">
                             <input type="submit" value="Registrar" class="btn btn-primary" id="btnAccion">
                             <input type="button" value="Nuevo" class="btn btn-success" id="btnNuevo" onclick="limpiar()">
-                            <input type="file" class="btn btn-success" name="Importar" id="importar">
+                            <input type="file" class="btn btn-success" name="Importar" id="btn_importar">
                         </div>
                     </div>
                 </form>
@@ -145,7 +145,7 @@ include_once "includes/header.php";
                                         <td><?php echo $data['asignado']; ?></td>
                                         <td style="width: 200px;">
                                             <a href="#" onclick="editarActFijo(<?php echo $data['id_activo_fijo']; ?>)" class="btn btn-primary"><i class='fas fa-edit'></i></a>
-                                            <form action="eliminar_activo_fijo.php?id=<?php echo $data['id_activo_fijo']; ?>" method="post" class="confirmar d-inline">
+                                            <form action="eliminar_activo_fijo.php?id_activo=<?php echo $data['id_activo_fijo']; ?>&id_session=<?php echo $_SESSION['idUser'];?>" method="post" class="confirmar d-inline">
                                                 <button class="btn btn-danger" type="submit"><i class='fas fa-trash-alt'></i> </button>
                                             </form>
                                         </td>

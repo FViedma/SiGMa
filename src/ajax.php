@@ -145,6 +145,8 @@ if (isset($_GET['q'])) {
     echo json_encode($data);
     exit;
 }
+
+
 if (isset($_POST['regDetalle'])) {
     $id = $_POST['id'];
     $cant = $_POST['cant'];
@@ -196,6 +198,26 @@ if (isset($_POST['regDetalle'])) {
     }
     echo $msg;
     die();
-    
-}
+}else if (isset($_POST['importarActFijo'])){
+    $array_textoCompleto = $_POST['filas'];
+    $msg = "";
+    foreach ($array_textoCompleto as $fila) {
+        $columnas = explode("\t", $fila);
+        $codigo =intval($columnas[1]);
+        $descripcion = $columnas[2];
+        $f_compra =date('Y-m-d', strtotime($columnas[3]));
+        $ubicacion = $columnas[4];
+        $asignado = $columnas[5];
+        $query = sprintf('INSERT INTO activos_fijos (codigo, descripcion,f_compra,ubicacion,asignado) VALUES(%d,\'%s\',%s,\'%s\',\'%s\')',$codigo,$descripcion,$f_compra,$ubicacion,$asignado);
+        $sql = mysqli_query($conexion, $query);
+        if ($sql) {
+            $msg = "ok";
+        } else {
+            $msg = $query;
+            break;
+        }
+    }
+    echo json_encode($msg);
+    die();
+} 
 

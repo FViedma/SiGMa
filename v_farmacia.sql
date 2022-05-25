@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-09-2021 a las 14:35:01
--- Versión del servidor: 10.4.20-MariaDB
--- Versión de PHP: 8.0.9
+-- Tiempo de generación: 25-05-2022 a las 21:44:29
+-- Versión del servidor: 10.4.17-MariaDB
+-- Versión de PHP: 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `v_farmacia`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `activos_fijos`
+--
+
+CREATE TABLE `activos_fijos` (
+  `id_activo_fijo` int(11) NOT NULL,
+  `codigo` int(11) NOT NULL,
+  `descripcion` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
+  `f_compra` date NOT NULL,
+  `ubicacion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `asignado` varchar(100) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -53,7 +68,7 @@ CREATE TABLE `configuracion` (
 --
 
 INSERT INTO `configuracion` (`id`, `nombre`, `telefono`, `email`, `direccion`) VALUES
-(1, 'Sistemas Free', '98745698', 'ana.info1999@gamil.com', 'Trujillo');
+(1, 'Sistema de Gestion de Mantenimiento', '98745698', 'ana.info1999@gamil.com', 'Trujillo');
 
 -- --------------------------------------------------------
 
@@ -70,22 +85,6 @@ CREATE TABLE `detalle_permisos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detalle_temp`
---
-
-CREATE TABLE `detalle_temp` (
-  `id` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `descuento` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `precio_venta` decimal(10,2) NOT NULL,
-  `total` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `detalle_venta`
 --
 
@@ -94,7 +93,6 @@ CREATE TABLE `detalle_venta` (
   `id_producto` int(11) NOT NULL,
   `id_venta` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `descuento` decimal(10,2) NOT NULL DEFAULT 0.00,
   `precio` decimal(10,2) NOT NULL,
   `total` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -109,6 +107,21 @@ CREATE TABLE `laboratorios` (
   `id` int(11) NOT NULL,
   `laboratorio` varchar(100) NOT NULL,
   `direccion` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `mantenimientos`
+--
+
+CREATE TABLE `mantenimientos` (
+  `id` int(11) NOT NULL,
+  `id_servicio` int(11) NOT NULL,
+  `id_activo_fijo` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  `nombre_solicitante` varchar(50) NOT NULL,
+  `estado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -135,7 +148,8 @@ INSERT INTO `permisos` (`id`, `nombre`) VALUES
 (6, 'nueva_venta'),
 (7, 'tipos'),
 (8, 'presentacion'),
-(9, 'laboratorios');
+(9, 'laboratorios'),
+(10, 'activos_fijos');
 
 -- --------------------------------------------------------
 
@@ -152,31 +166,20 @@ CREATE TABLE `presentacion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `producto`
+-- Estructura de tabla para la tabla `servicios`
 --
 
-CREATE TABLE `producto` (
-  `codproducto` int(11) NOT NULL,
-  `codigo` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
-  `descripcion` varchar(200) COLLATE utf8_spanish_ci NOT NULL,
-  `precio` decimal(10,2) NOT NULL,
-  `existencia` int(11) NOT NULL,
-  `id_lab` int(11) NOT NULL,
-  `id_presentacion` int(11) NOT NULL,
-  `id_tipo` int(11) NOT NULL,
-  `vencimiento` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tipos`
---
-
-CREATE TABLE `tipos` (
+CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
   `tipo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`id`, `tipo`) VALUES
+(1, 'nuevo');
 
 -- --------------------------------------------------------
 
@@ -219,6 +222,12 @@ CREATE TABLE `ventas` (
 --
 
 --
+-- Indices de la tabla `activos_fijos`
+--
+ALTER TABLE `activos_fijos`
+  ADD PRIMARY KEY (`id_activo_fijo`);
+
+--
 -- Indices de la tabla `cliente`
 --
 ALTER TABLE `cliente`
@@ -239,26 +248,23 @@ ALTER TABLE `detalle_permisos`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Indices de la tabla `detalle_temp`
---
-ALTER TABLE `detalle_temp`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_usuario` (`id_usuario`),
-  ADD KEY `id_producto` (`id_producto`);
-
---
 -- Indices de la tabla `detalle_venta`
 --
 ALTER TABLE `detalle_venta`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_producto` (`id_producto`),
-  ADD KEY `id_venta` (`id_venta`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `laboratorios`
 --
 ALTER TABLE `laboratorios`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `mantenimientos`
+--
+ALTER TABLE `mantenimientos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_cliente` (`id_servicio`);
 
 --
 -- Indices de la tabla `permisos`
@@ -273,15 +279,9 @@ ALTER TABLE `presentacion`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `producto`
+-- Indices de la tabla `servicios`
 --
-ALTER TABLE `producto`
-  ADD PRIMARY KEY (`codproducto`);
-
---
--- Indices de la tabla `tipos`
---
-ALTER TABLE `tipos`
+ALTER TABLE `servicios`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -303,6 +303,12 @@ ALTER TABLE `ventas`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `activos_fijos`
+--
+ALTER TABLE `activos_fijos`
+  MODIFY `id_activo_fijo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
@@ -318,13 +324,7 @@ ALTER TABLE `configuracion`
 -- AUTO_INCREMENT de la tabla `detalle_permisos`
 --
 ALTER TABLE `detalle_permisos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `detalle_temp`
---
-ALTER TABLE `detalle_temp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_venta`
@@ -339,10 +339,16 @@ ALTER TABLE `laboratorios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `mantenimientos`
+--
+ALTER TABLE `mantenimientos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `presentacion`
@@ -351,16 +357,10 @@ ALTER TABLE `presentacion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `producto`
+-- AUTO_INCREMENT de la tabla `servicios`
 --
-ALTER TABLE `producto`
-  MODIFY `codproducto` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `tipos`
---
-ALTER TABLE `tipos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `servicios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -386,17 +386,9 @@ ALTER TABLE `detalle_permisos`
   ADD CONSTRAINT `detalle_permisos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `detalle_temp`
---
-ALTER TABLE `detalle_temp`
-  ADD CONSTRAINT `detalle_temp_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`codproducto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `detalle_temp_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `detalle_venta`
 --
 ALTER TABLE `detalle_venta`
-  ADD CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`codproducto`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `detalle_venta_ibfk_2` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
