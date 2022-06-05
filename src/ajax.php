@@ -201,14 +201,21 @@ if (isset($_POST['regDetalle'])) {
 }else if (isset($_POST['importarActFijo'])){
     $array_textoCompleto = $_POST['filas'];
     $msg = "";
+    $query = "";
     foreach ($array_textoCompleto as $fila) {
         $columnas = explode("\t", $fila);
-        $codigo =intval($columnas[1]);
+        $codigo =$columnas[1];
         $descripcion = $columnas[2];
-        $f_compra =date('Y-m-d', strtotime($columnas[3]));
+        $f_compra =date('Y/m/d', strtotime($columnas[3]));
         $ubicacion = $columnas[4];
         $asignado = $columnas[5];
-        $query = sprintf('INSERT INTO activos_fijos (codigo, descripcion,f_compra,ubicacion,asignado) VALUES(%d,\'%s\',%s,\'%s\',\'%s\')',$codigo,$descripcion,$f_compra,$ubicacion,$asignado);
+        $query_exists =sprintf('SELECT codigo FROM activos_fijos WHERE codigo = %d',$codigo);
+        $exists = mysqli_query($conexion, $query_exists);
+        if(mysqli_num_rows($exists) > 0){
+            $query = sprintf('UPDATE activos_fijos SET descripcion = \'%s\', f_compra = \'%s\', ubicacion = \'%s\', asignado = \'%s\' WHERE codigo = %d',$descripcion,$f_compra,$ubicacion,$asignado, $codigo);
+        } else {
+            $query = sprintf('INSERT INTO activos_fijos (codigo, descripcion,f_compra,ubicacion,asignado) VALUES(%d,\'%s\',%s,\'%s\',\'%s\')',$codigo,$descripcion,$f_compra,$ubicacion,$asignado);
+        }
         $sql = mysqli_query($conexion, $query);
         if ($sql) {
             $msg = "ok";

@@ -7,7 +7,7 @@
             <script>
                 document.write(new Date().getFullYear())
             </script>
-            <a href="#" target="_blank">Sistemas Gratis</a>.
+            <a href="www.hospitalviedma.org" target="_blank">Hospital Clínico Viedma</a>.
         </div>
     </div>
 </footer>
