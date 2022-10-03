@@ -111,14 +111,19 @@ include_once "includes/header.php";
                         <div class="col-md-2 mt-2">
                             <input type="submit" value="Registrar" class="btn btn-primary" id="btnAccion">
                             <input type="button" value="Nuevo" class="btn btn-success" id="btnNuevo" onclick="limpiar()">
+                        </div>
+                        <div class="col-md-2 mt-2">
                             <input type="file" class="btn btn-success" name="Importar" id="btn_importar">
                         </div>
+
                     </div>
                 </form>
+                <!-- SESSION ID -->
+                <input type="hidden" name="session_id" id="session_id" value="<?php echo $id_user?>" />
             </div>
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered" id="tbl">
+                    <table class="table table-striped table-bordered display" id="tbl">
                         <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
@@ -130,30 +135,7 @@ include_once "includes/header.php";
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            include "../conexion.php";
-
-                            $query = mysqli_query($conexion, "SELECT * FROM activos_fijos");
-                            $result = mysqli_num_rows($query);
-                            if ($result > 0) {
-                                while ($data = mysqli_fetch_assoc($query)) { ?>
-                                    <tr>
-                                        <td><?php echo $data['id_activo_fijo']; ?></td>
-                                        <td><?php echo $data['codigo']; ?></td>
-                                        <td><?php echo $data['descripcion']; ?></td>
-                                        <td><?php echo $data['ubicacion']; ?></td>
-                                        <td><?php echo $data['asignado']; ?></td>
-                                        <td style="width: 200px;">
-                                            <a href="#" onclick="editarActFijo(<?php echo $data['id_activo_fijo']; ?>)" class="btn btn-primary"><i class='fas fa-edit'></i></a>
-                                            <form action="eliminar_activo_fijo.php?id_activo=<?php echo $data['id_activo_fijo']; ?>&id_session=<?php echo $_SESSION['idUser'];?>" method="post" class="confirmar d-inline">
-                                                <button class="btn btn-danger" type="submit"><i class='fas fa-trash-alt'></i> </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                            <?php }
-                            } ?>
                         </tbody>
-
                     </table>
                 </div>
             </div>

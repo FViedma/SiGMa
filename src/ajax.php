@@ -144,6 +144,12 @@ if (isset($_GET['q'])) {
     $data = mysqli_fetch_array($sql);
     echo json_encode($data);
     exit;
+} else if (isset($_GET['cargar_tabla_activos'])){
+    $sql = sprintf("SELECT * FROM activos_fijos");
+    $result = mysqli_query($conexion, $sql);
+    $data = mysqli_fetch_all ($result, MYSQLI_ASSOC);
+    echo json_encode($data );
+    exit;
 }
 
 

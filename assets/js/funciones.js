@@ -1,12 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
-  $("#tbl").DataTable({
+  var table = $("table.display").DataTable({
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json",
     },
-    order: [[0, "desc"]],
+    order: [[0, "asc"]],
+    processing: true,
+    serverSide: true,
+    ajax: "../src/server_processing.php",
+    columnDefs: [
+      {
+        targets: -1,
+        data: null,
+        defaultContent:
+          "<button id='btn_edit' class='btn btn-primary'><i class = 'fas fa-edit'></i></button>" +
+          "<button id='btn_delete' class='btn btn-danger'><i class='fas fa-trash-alt'></i> </button>",
+      },
+      { width: "170px", targets: 5 },
+    ],
   });
-  $(".confirmar").submit(function (e) {
-    e.preventDefault();
+
+  $('table.display tbody').on('click', '#btn_edit', function () {
+    var data = table.row($(this).parents('tr')).data();
+    editarActFijo(data[0]);
+  });
+
+  $('table.display tbody').on('click', '#btn_delete', function () {
+    var data = table.row($(this).parents('tr')).data();
+    confirmar_borrado(data[0], $("#session_id").val());
+  });
+
+  function confirmar_borrado(id_activo_fijo, id_session) {
+    console.log(id_session);
     Swal.fire({
       title: "Esta seguro de eliminar?",
       icon: "warning",
@@ -16,10 +40,26 @@ document.addEventListener("DOMContentLoaded", function () {
       confirmButtonText: "SI, Eliminar!",
     }).then((result) => {
       if (result.isConfirmed) {
-        this.submit();
+        $.ajax({
+          method: "GET",
+          url: "eliminar_activo_fijo.php",
+          data: {
+            id_session: id_session,
+            id_activo: id_activo_fijo
+          },
+        }).done(function (result) { 
+          //hacer que el cuadrito se actualice luego del borrado de datos.
+          console.log(result);
+          // if (result) {
+          //   table.ajax.reload();
+          // } else {
+          //   window.location.href = "permisos.php";
+          // }
+        });
+
       }
     });
-  });
+  }
   $("#nom_cliente").autocomplete({
     minLength: 3,
     source: function (request, response) {
@@ -662,12 +702,12 @@ function editarActFijo(id) {
 }
 function importar(evt) {
   var file = evt.target.files[0];
-  if(!file){
+  if (!file) {
     return;
-  } 
+  }
   let reader = new FileReader();
-  reader.onload = function(e) {
-    var data = e.target.result; 
+  reader.onload = function (e) {
+    var data = e.target.result;
     const todasFilas = data.split(/\r?\n|\r/);
     const action = "importarActFijo";
     var filas = {};
@@ -702,6 +742,6 @@ function importar(evt) {
         });
       },
     });
-  }
+  };
   var data = reader.readAsText(file);
 }
